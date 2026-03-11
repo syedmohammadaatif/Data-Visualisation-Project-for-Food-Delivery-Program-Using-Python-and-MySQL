@@ -1,0 +1,107 @@
+create database fastfoodz;
+use fastfoodz;
+
+create table USER
+(UserID int(3) primary key,
+Name varchar(50),
+Email varchar(50),
+Phone_No bigint,
+Address varchar(100));
+insert into user values
+(1,'Rohit Kumar','rohit12@gmail.com',9281712094,'28, Shahjahanabad, Bhopal'),
+(2,'Saksham Pandey','saksham23@gmail.com',6928593823,"69, Colonel's Corner, Bhopal"),
+(3,'Syed Danish','danish34@gmail.com',8931984292,'17, Data Colony, Bhopal'),
+(4,'Uday Shetty','uday45@gmail.com',6394543985,'48, Arera Colony, Bhopal'),
+(5,'Babu Rao','babu56@gmail.com',9239429385,'11, Ashoka Garden, Bhopal'),
+(6,'Yusuf Khan','yusuf67@gmail.com',8934289353,'36, Kohefiza, Bhopal'),
+(7,'Amar Manohar','amar78@gmail.com',9238582355,'81, Panchvati, Bhopal'),
+(8,'Preeti Singh','preeti89@gmail.com',6297491291,'45, Jahangirabad, Bhopal'),
+(9,'Prem Bhopali','prem99@gmail.com',9273947899,'25, Khanugaon, Bhopal');
+
+create table RESTAURANT
+(RestaurantID int(3) primary key,
+Name varchar(50),
+Location varchar(100),
+Cuisine_Type varchar(20),
+Rating float);
+insert into restaurant values
+(1,"Domino's",'Lal Ghati, Bhopal','Italian',8.5),
+(2,'Starbucks','Arera Colony, Bhopal','Beverages',9.5),
+(3,'Subway','DB Mall, Bhopal','French',8),
+(4,'Jaffa','Kohefiza, Bhopal','Lebanese',7),
+(5,'The Giant Panda','DB Mall, Bhopal','Japanese',9),
+(6,'KFC','Kohefiza, Bhopal','Fried Chicken',7.5);
+
+create table DELBOY
+(DelBoyID int(3) primary key,
+Name varchar(50),
+Phone_No bigint,
+Experience_in_Years int(2),
+Rating float);
+insert into delboy values
+(1,'Salman Khan',9735872398,30,10),
+(2,'Nana Patekar',6832469821,26,8),
+(3,'Tiger Shroff',8923578237,8,6.5),
+(4,'Shahrukh Khan',9397482393,17,9.5),
+(5,'Ajay Devgan',6327493287,20,7.5),
+(6,'Akshay Kumar',8124397283,11,8);
+
+create table MENU
+(MenuID int(3) primary key,
+RestaurantID int(3),
+Item_Name varchar(50),
+Price int(4),
+Description varchar(200),
+foreign key(RestaurantID) references restaurant(RestaurantID));
+insert into menu values
+(1,2,'Caffe Americano',280,'Rich in flavour, full-bodied espresso with hot water.'),
+(2,4,'Paneer Shawarma',210,'Tender paneer, marinated in aromatic spices.'),
+(3,1,'Peppy Paneer',470,'Trio of juicy paneer, capsicum with red paprika.'),
+(4,6,'Caribbean Spicy Zinger Burger',220,'Relish the Caribbean spicy zinger.'),
+(5,3,'Chilli Cheese',270,'Toasted sub with aloo patty, jalapeño in chilli mayo.'),
+(6,2,'Cappuccino',300,'Dark, Rich flavour espresso with layer of thick foam.'),
+(7,5,'Asparagus Tempura Roll',620,'Asparagus tempura, black sesame seeds with mayonnaise.'),
+(8,2,'Cheese n Corn',385,'A delectable combination of sweet & juicy golden corn.'),
+(9,6,'Big 12',750,'6pc Hot & Crispy Chicken,6 Wings & 2 Dips.');
+
+create table ORDER_
+(OrderID int(3) primary key,
+UserID int(3),
+Order_Date date,
+Total_Amount int(5),
+MenuID int(3),
+Quantity int(2),
+Prep_Time varchar(20),
+Status varchar(20),
+DelBoyID int(3),
+foreign key(UserID) references user(UserID),
+foreign key(DelBoyID) references delboy(DelBoyID),
+foreign key(MenuID) references menu(MenuID));
+insert into order_ values
+(1,2,'2024-08-25',2550,3,2,'45 min','Delivered',1),
+(2,6,'2024-10-16',1130,1,1,'20 min','On the way',5),
+(3,4,'2024-10-16',750,9,1,'30 min','Order placed',3),
+(4,1,'2024-09-27',6500,9,3,'1 hr 15 min','Delivered',4),
+(5,9,'2024-10-16',1450,4,3,'40 min','In the kitchen',6),
+(6,3,'2024-10-16',2150,5,2,'45 min','On the way',1),
+(7,5,'2024-10-02',3330,8,2,'50 min','Delivered',2),
+(8,7,'2024-09-11',1240,7,2,'1 hr','Delivered',4),
+(9,8,'2024-10-16',1400,1,5,'45 min','In the kitchen',2);
+
+create table PAYMENT
+(PaymentID int(3) primary key,
+OrderID int(3),
+Payment_Method varchar(20),
+Amount int(5),
+Payment_Date date,
+foreign key(OrderID) references order_(OrderID));
+insert into payment values
+(1,1,'UPI',2550,'2024-08-25'),
+(2,8,'Cash',1240,'2024-09-11'),
+(3,4,'UPI',6500,'2024-09-27'),
+(4,7,'UPI',3330,'2024-10-02'),
+(5,2,'Cash',1130,'2024-10-16'),
+(6,3,'Cash',750,'2024-10-16'),
+(7,5,'Cash',1450,'2024-10-16'),
+(8,6,'UPI',2150,'2024-10-16'),
+(9,9,'Cash',1400,'2024-10-16');
