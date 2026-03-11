@@ -1,0 +1,35 @@
+import mysql.connector as mc
+import matplotlib.pyplot as plt
+
+mydb=mc.connect(host='localhost',
+                user='root',
+                password='aatif',
+                auth_plugin='mysql_native_password',
+                database='fastfoodz')
+
+mycursor=mydb.cursor()
+
+mycursor.execute('select DelBoyID,Experience_in_Years,Rating from delboy')
+result=mycursor.fetchall
+
+DelBoyID=[]
+Experience_in_Years=[]
+Rating=[]
+
+for i in mycursor:
+    DelBoyID.append(i[0])
+    Experience_in_Years.append(i[1])
+    Rating.append(i[2])
+
+print('Delivery Boy ID=',DelBoyID)
+print('Experience of Delivery Boy=',Experience_in_Years)
+print('Rating of Delivery Boy=',Rating)
+
+#Visualising Data using Matplotlib
+
+plt.plot(DelBoyID,Experience_in_Years,linestyle='dashdot',color='blue',label='Experience in Years')
+plt.plot(DelBoyID,Rating,linestyle='solid',color='green',label='Rating')
+plt.legend(loc='upper right')
+plt.xlabel('Delivery Boy ID')
+plt.title('Delivery Boy Information')
+plt.show()
