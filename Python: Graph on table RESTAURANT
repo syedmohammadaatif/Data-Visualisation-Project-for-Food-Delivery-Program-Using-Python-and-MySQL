@@ -1,0 +1,31 @@
+import mysql.connector as mc
+import matplotlib.pyplot as plt
+
+mydb=mc.connect(host='localhost',
+                user='root',
+                password='aatif',
+                auth_plugin='mysql_native_password',
+                database='fastfoodz')
+
+mycursor=mydb.cursor()
+
+mycursor.execute('select Name,Rating from restaurant')
+result=mycursor.fetchall
+
+Name=[]
+Rating=[]
+
+for i in mycursor:
+    Name.append(i[0])
+    Rating.append(i[1])
+
+print('Restaurant=',Name)
+print('Rating of Restaurant=',Rating)
+
+#Visualising Data using Matplotlib
+
+plt.bar(Name,Rating,color=['blue','green','yellow','cyan','black','red'])
+plt.xlabel('Restaurant')
+plt.ylabel('Rating')
+plt.title('Restaurant Information')
+plt.show()
