@@ -1,0 +1,34 @@
+import mysql.connector as mc
+import matplotlib.pyplot as plt
+
+mydb=mc.connect(host='localhost',
+                user='root',
+                password='aatif',
+                auth_plugin='mysql_native_password',
+                database='fastfoodz')
+
+mycursor=mydb.cursor()
+
+mycursor.execute("select MenuID,count(MenuID) as 'No_of_Orders' from order_ group by MenuID;")
+result=mycursor.fetchall
+
+MenuID=[]
+No_of_Orders=[]
+
+for i in mycursor:
+    MenuID.append(i[0])
+    No_of_Orders.append(i[1])
+
+print('MenuID=',MenuID)
+print('No. of Orders=',No_of_Orders)
+
+#Visualising Data using Matplotlib
+
+c=['brown','orange','maroon','green','black','yellow','red']
+l=['Caffe Americano','Peppy Paneer','Caribbean Spicy Zinger','Chilli Cheese','Asparagus Tempura','Cheese n Corn','Big 12']
+plt.bar(MenuID,No_of_Orders,color=c,label=l)
+plt.xlabel('Dishes')
+plt.ylabel('No. of Orders')
+plt.title('Order Information')
+plt.legend(loc='upper right')
+plt.show()
